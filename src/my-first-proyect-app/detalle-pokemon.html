@@ -1,0 +1,101 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<!--<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">-->
+
+<dom-module id="detalle-pokemon">
+    <template>
+      <style>
+        :host {
+          display: block;
+          padding: 10px 15px;
+          background-color: #ef5350;
+          color: #fff;
+          border-radius: 6px;
+          font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+          margin-bottom: 10px;
+        }
+        h1{
+            font-size: 1.4em;
+            margin: 0;
+            color: #fff;
+            cursor: pointer;
+        }
+        p{
+            font-size: .9em;
+            color: #fff;
+        }
+        p span{
+            font-weight: bold;
+        }
+      </style>
+      
+      <h1 on-click="toggle">
+          [[numero]]. {{nombre}}
+      </h1>
+      <iron-collapse opened="[[desplegado]]">
+        <p on-click="resaltarDescripcion">
+            <span>
+                Descripción:
+            </span>
+            [[descripcion]]
+        </p>
+        <p>
+            <span>
+            Clasificación: 
+            </span>
+            [[especie]]
+        </p>
+        <p>
+            <span>
+            Tipos: 
+            </span>
+            [[tipos]]
+        </p>
+        <img src="[[sprite]]" alt="{{nombre}}" width="150" height="160">
+      </iron-collapse>
+
+    </template>
+
+    <script>
+        class DetallePokemon extends Polymer.Element {
+            static get is(){
+                return 'detalle-pokemon';
+            }
+            static get properties(){
+                return {
+                    nombre: String,
+                    especie: String,
+                    descripcion: String,
+                    tipos : {
+                        type: Array,
+                        value: []
+                    },
+                    sprite : String,
+                    numero: Number,
+                    desplegado: {
+                        type: Boolean,
+                        value: false
+                    }
+                };
+            }
+
+            resaltarDescripcion(e){
+                console.log(e);
+                this.descripcion = this.descripcion.toUpperCase();
+            }
+
+            toggle(){
+                this.desplegado = !this.desplegado;
+            }
+
+            constructor(){
+                super();
+            }
+            
+        }
+        window.customElements.define(DetallePokemon.is, DetallePokemon);
+    </script>
+</dom-module>

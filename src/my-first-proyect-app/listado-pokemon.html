@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="./detalle-pokemon.html">
+
+<dom-module id="listado-pokemon">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+
+    <paper-input label = 'Nombre o número del Pokemon' value ='{{pokemonValues}}'></paper-input>
+
+    <iron-ajax
+        url="https://pokeapi.glitch.me/v1/pokemon/{{pokemonValues}}"
+        last-response="{{pokemon}}"
+        on-response="handleResponse"
+        auto
+    ></iron-ajax>
+
+    <template is="dom-repeat" items="[[pokemon]]">
+        <detalle-pokemon
+            nombre="[[item.name]]"
+            descripcion="[[item.description]]"
+            especie="[[item.species]]"
+            tipos="[[item.types]]"
+            sprite="[[item.sprite]]"
+            numero="[[item.number]]"
+        ></detalle-pokemon>
+    </template>
+    
+    
+  </template>
+
+  <script>
+    
+    class ListadoPokemon extends Polymer.Element {
+      static get is() { 
+          return 'listado-pokemon'; 
+        }
+      static get properties() {
+        return {
+            pokemon: {
+              type: Array,
+              value: function(){
+                  return[]; 
+              }
+          },
+          pokemonValues: String
+        };
+      }
+    }
+
+    window.customElements.define(ListadoPokemon.is, ListadoPokemon);
+  </script>
+</dom-module>
